@@ -42,6 +42,56 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <!-- indexed DB starts here -->
   <script src="index.js"></script>
+  <script>
+let db;
+const request = indexedDB.open("afterDarkDB", 1);
+
+request.onupgradeneeded = function(event) {
+  const db = event.target.result;
+  db.createObjectStore("darkPurchase", { autoIncrement: true });
+};
+request.onsuccess = function(event) {
+  db = event.target.result;
+  if (navigator.onLine) {
+    checkDatabase();
+  }
+};
+
+function saveRecord(record) {
+  const transaction = db.transaction(["darkPurchase"], "readwrite");
+
+  const store = transaction.objectStore("darkPurchase");
+  store.add(record);
+}
+
+function checkDatabase() {
+  const transaction = db.transaction(["darkPurchase"], "readwrite");
+  const store = transaction.objectStore("darkPurchase");
+  const getAll = store.getAll();
+
+  getAll.onsuccess = function() {
+    if (getAll.result.length > 0) {
+      fetch("/api/transaction/bulk", {
+        method: "POST",
+        body: JSON.stringify(getAll.result),
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(() => {
+        const transaction = db.transaction(["darkPurchase"], "readwrite");
+        const store = transaction.objectStore("darkPurchase");
+        store.clear();
+      });
+    }
+  };
+}
+window.addEventListener("online", checkDatabase);
+  </script>
+<!-- indexed db ends here -->
 </body>
 </html>
