@@ -15,14 +15,15 @@
 
   6:Questions
 
-![Fitness-Tracker](./public/images/Screenshot.png)
+![Budger-Tracker](./public/images/Screenshot1.png)
 ## 1:Installation
 No installation necessary, just follow the link here! 
 https://budget-tracker-afterdark.herokuapp.com//
 
 ## 2:Usage
 Type in the items that are adding or subtracting into the top line. Then add the amount that will be changed by. Finally use the add or subtract buttons to make the changes required. To test offline functionality, use the inspect and network tab to place the app into an offline state. Follow the aformentioned procedue and then return the app to online the same way you shut it off. Once you refresh the page your new items will be displayed as though you were never offline.
-
+![Budget-Tracker-Offline](./public/images/Screenshot2.png)
+![Budget-Tracker-OnlineCombo](./public/images/Screenshot3.png)
 
 ## 3:Contributing
 I am accepting contributions to my code at this time. If you have futher questions or 
